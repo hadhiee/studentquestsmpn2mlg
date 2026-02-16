@@ -33,7 +33,7 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
             <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🕌</div>
             <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
               <img
-                src="/images/damascus.png"
+                src="/images/damascus.svg"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 alt="Damascus Skyline"
                 onError={(e) => {
@@ -63,7 +63,7 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
             <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🔬</div>
             <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
               <img
-                src="/images/cordoba.png"
+                src="/images/cordoba.svg"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 alt="Mezquita de Cordoba"
                 onError={(e) => {
