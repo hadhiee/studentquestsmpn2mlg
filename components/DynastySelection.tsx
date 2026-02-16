@@ -33,9 +33,12 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
             <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🕌</div>
             <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
               <img
-                src="https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1000&auto=format&fit=crop"
+                src="/images/damascus.png"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="Damascus Umayyad Mosque"
+                alt="Damascus Skyline"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200&auto=format&fit=crop';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
               <div className="absolute bottom-4 left-4">
@@ -60,9 +63,12 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
             <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🔬</div>
             <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
               <img
-                src="https://images.unsplash.com/photo-1555881400-74d7acaacd8b?q=80&w=1000&auto=format&fit=crop"
+                src="/images/cordoba.png"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="Cordoba Mezquita"
+                alt="Mezquita de Cordoba"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=1200&auto=format&fit=crop';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
               <div className="absolute bottom-4 left-4">
