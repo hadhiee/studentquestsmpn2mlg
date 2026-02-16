@@ -8,6 +8,7 @@ import { DynastyBriefing } from './components/DynastyBriefing';
 import { CLASSMATES_NAMES, LEVEL_1_MAP_NODES } from './constants';
 import { supabase } from './supabaseClient';
 import { WelcomeAnimation } from './components/WelcomeAnimation';
+import { OnlinePlayers } from './components/OnlinePlayers';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.START);
@@ -277,6 +278,26 @@ const App: React.FC = () => {
     switchState(GameState.DYNASTY_SELECT);
   };
 
+  const handleLogout = async () => {
+    // Sign out from Supabase if logged in
+    await supabase.auth.signOut();
+
+    // Reset player stats
+    setPlayerStats({
+      name: 'Cadet',
+      email: '',
+      school: 'SMPN 2 Malang',
+      score: 0,
+      energy: 3,
+      artifacts: [],
+      completedLevels: [],
+      currentNodeIndex: 0
+    });
+
+    // Go back to start
+    switchState(GameState.START);
+  };
+
   return (
     <div className="antialiased font-content text-white h-screen w-screen overflow-x-hidden">
       <div className={`page-transition w-full h-full ${isTransitioning ? 'page-exit' : 'page-active'}`}>
@@ -347,6 +368,15 @@ const App: React.FC = () => {
           playerName={welcomePlayerData.name}
           avatarUrl={welcomePlayerData.avatarUrl}
           onComplete={handleWelcomeComplete}
+        />
+      )}
+
+      {/* Online Players Panel & Logout - Show everywhere except START screen */}
+      {renderState !== GameState.START && !showWelcome && (
+        <OnlinePlayers
+          competitors={competitors}
+          currentPlayerName={playerStats.name}
+          onLogout={handleLogout}
         />
       )}
     </div>
