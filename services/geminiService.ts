@@ -1,16 +1,17 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Question } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 export const generateQuestion = async (level: number, previousTopics: string[]): Promise<Question | null> => {
-  if (!process.env.API_KEY) {
-    console.warn("API Key missing, using fallback.");
+  if (!ai || !apiKey) {
+    console.warn("Gemini API Key missing, using fallback questions.");
     return null;
   }
 
   const modelId = "gemini-3-flash-preview";
-  
+
   let scope = "Dinasti Bani Umayyah (Umayyah 1 di Damaskus & Umayyah 2 di Andalusia/Spanyol)";
   if (level === 2) {
     scope = "Dinasti Abbasiyah di Baghdad (Masa Keemasan Islam, Baitul Hikmah, 1001 Malam)";
@@ -47,7 +48,7 @@ export const generateQuestion = async (level: number, previousTopics: string[]):
           type: Type.OBJECT,
           properties: {
             text: { type: Type.STRING },
-            options: { 
+            options: {
               type: Type.ARRAY,
               items: { type: Type.STRING }
             },
@@ -63,7 +64,7 @@ export const generateQuestion = async (level: number, previousTopics: string[]):
     const jsonText = response.text;
     if (!jsonText) return null;
     const parsed = JSON.parse(jsonText);
-    
+
     return {
       id: Date.now().toString(),
       text: parsed.text,
@@ -80,37 +81,37 @@ export const generateQuestion = async (level: number, previousTopics: string[]):
 };
 
 export const generateStudentResponse = async (studentName: string, message: string): Promise<string> => {
-    if (!process.env.API_KEY) return "Sinyal temporal lemah...";
-    
-    try {
-        const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
-            contents: `Pesan dari teman: "${message}"`,
-            config: {
-                systemInstruction: `
+  if (!ai || !apiKey) return "Sinyal temporal lemah...";
+
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: `Pesan dari teman: "${message}"`,
+      config: {
+        systemInstruction: `
                     Kamu berperan sebagai ${studentName}, seorang siswa Kelas 7 SMPN 2 Malang yang sedang bermain game 'ChronoQuest'.
                     Gunakan gaya bicara anak SMP Gen-Z Indonesia (santai, sedikit gaul, pakai kata 'gue/lo' atau 'aku/kamu', selipkan emoji).
                     Kamu sedang berada di misi sejarah Umayyah. Respon pesan temanmu dengan semangat, kadang bahas soal sejarah yang sulit, atau ajak balapan skor.
                     Maksimal 15 kata.
                 `,
-            }
-        });
-        return response.text || "Semangat belajarnya!";
-    } catch (e) {
-        return "Lagi fokus ngerjain soal nih!";
-    }
+      }
+    });
+    return response.text || "Semangat belajarnya!";
+  } catch (e) {
+    return "Lagi fokus ngerjain soal nih!";
+  }
 };
 
 export const getHistoricalFact = async (): Promise<string> => {
-    if (!process.env.API_KEY) return "Tahukah kamu? Kota Cordoba punya perpustakaan terbesar di masanya.";
+  if (!ai || !apiKey) return "Tahukah kamu? Kota Cordoba punya perpustakaan terbesar di masanya.";
 
-    try {
-        const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
-            contents: "Berikan satu fakta singkat (maksimal 20 kata) yang mencengangkan tentang teknologi/sains di masa kejayaan Islam untuk siswa SMP.",
-        });
-        return response.text || "Fakta sejarah sedang dimuat...";
-    } catch (e) {
-        return "Sistem database sejarah sedang mengalami gangguan.";
-    }
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: "Berikan satu fakta singkat (maksimal 20 kata) yang mencengangkan tentang teknologi/sains di masa kejayaan Islam untuk siswa SMP.",
+    });
+    return response.text || "Fakta sejarah sedang dimuat...";
+  } catch (e) {
+    return "Sistem database sejarah sedang mengalami gangguan.";
+  }
 }
