@@ -299,7 +299,16 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="antialiased font-content text-white h-screen w-screen overflow-x-hidden">
+    <div className="antialiased font-content text-white h-screen w-screen overflow-x-hidden relative">
+      {/* Online Players Panel & Logout - Show everywhere except START screen */}
+      {renderState !== GameState.START && !showWelcome && (
+        <OnlinePlayers
+          competitors={competitors}
+          currentPlayerName={playerStats.name}
+          onLogout={handleLogout}
+        />
+      )}
+
       <div className={`page-transition w-full h-full ${isTransitioning ? 'page-exit' : 'page-active'}`}>
         {renderState === GameState.START && <StartScreen onStart={handleStart} />}
 
@@ -371,14 +380,7 @@ const App: React.FC = () => {
         />
       )}
 
-      {/* Online Players Panel & Logout - Show everywhere except START screen */}
-      {renderState !== GameState.START && !showWelcome && (
-        <OnlinePlayers
-          competitors={competitors}
-          currentPlayerName={playerStats.name}
-          onLogout={handleLogout}
-        />
-      )}
+
     </div>
   );
 };

@@ -9,6 +9,7 @@ interface OnlinePlayersProps {
 
 export const OnlinePlayers: React.FC<OnlinePlayersProps> = ({ competitors, currentPlayerName, onLogout }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    console.log("OnlinePlayers Rendering:", { currentPlayerName, isExpanded, renderState: "not start" });
 
     const onlinePlayers = competitors.filter(c => c.status === 'online').slice(0, 10);
     const totalOnline = competitors.filter(c => c.status === 'online').length + 1; // +1 for current player
@@ -18,7 +19,7 @@ export const OnlinePlayers: React.FC<OnlinePlayersProps> = ({ competitors, curre
             {/* Logout Button - Top Left */}
             <button
                 onClick={onLogout}
-                className="fixed top-4 left-4 z-50 bg-red-600/90 hover:bg-red-500 text-white px-4 py-2 rounded-xl font-sci-fi text-xs tracking-wider transition-all shadow-lg hover:shadow-red-500/50 flex items-center gap-2 backdrop-blur-sm border border-red-400/30"
+                className="fixed top-4 left-4 z-[9999] bg-red-600/90 hover:bg-red-500 text-white px-4 py-2 rounded-xl font-sci-fi text-xs tracking-wider transition-all shadow-lg hover:shadow-red-500/50 flex items-center gap-2 backdrop-blur-sm border border-red-400/30"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -27,7 +28,7 @@ export const OnlinePlayers: React.FC<OnlinePlayersProps> = ({ competitors, curre
             </button>
 
             {/* Online Players Panel - Top Right */}
-            <div className="fixed top-4 right-4 z-50">
+            <div className="fixed top-4 right-4 z-[9999]">
                 {/* Collapsed State - Just the badge */}
                 {!isExpanded && (
                     <button
@@ -52,7 +53,7 @@ export const OnlinePlayers: React.FC<OnlinePlayersProps> = ({ competitors, curre
 
                 {/* Expanded State - Full list */}
                 {isExpanded && (
-                    <div className="bg-slate-900/95 backdrop-blur-xl border border-green-500/30 rounded-2xl shadow-2xl overflow-hidden max-w-xs w-80 animate-slide-up">
+                    <div className="bg-slate-900/95 backdrop-blur-xl border border-green-500/30 rounded-2xl shadow-2xl overflow-hidden max-w-xs w-80 animate-slide-up relative z-[10000]">
                         {/* Header */}
                         <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-4 flex items-center justify-between">
                             <div className="flex items-center gap-3">
