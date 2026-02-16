@@ -300,6 +300,9 @@ const App: React.FC = () => {
 
   return (
     <div className="antialiased font-content text-white h-screen w-screen overflow-x-hidden relative">
+      <div className="fixed top-0 inset-x-0 h-1 bg-yellow-500 z-[99999] flex items-center justify-center">
+        <span className="bg-yellow-500 text-black text-[10px] px-2 font-bold">MODE DEBUG: V2</span>
+      </div>
       {/* Online Players Panel & Logout - Show everywhere except START screen */}
       {renderState !== GameState.START && !showWelcome && (
         <OnlinePlayers
