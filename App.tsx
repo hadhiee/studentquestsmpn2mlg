@@ -9,6 +9,7 @@ import { CLASSMATES_NAMES, LEVEL_1_MAP_NODES } from './constants';
 import { supabase } from './supabaseClient';
 import { WelcomeAnimation } from './components/WelcomeAnimation';
 import { OnlinePlayers } from './components/OnlinePlayers';
+import { AdminDashboard } from './components/AdminDashboard';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.START);
@@ -16,6 +17,7 @@ const App: React.FC = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [renderState, setRenderState] = useState<GameState>(GameState.START);
   const [selectedDynasty, setSelectedDynasty] = useState<'umayyah1' | 'umayyah2' | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [playerStats, setPlayerStats] = useState<PlayerStats>({
     name: 'Cadet',
@@ -73,66 +75,83 @@ const App: React.FC = () => {
   }, []);
 
   const handleAuthUser = async (user: any) => {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single();
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
 
-    if (profile) {
-      setPlayerStats((prev) => ({
-        ...prev,
-        name: profile.full_name || user.user_metadata.full_name || 'Agen',
-        email: profile.email || user.email,
-        avatarUrl: profile.avatar_url || user.user_metadata.avatar_url,
-        score: profile.score ?? 0,
-        energy: profile.energy ?? 3,
-        completedLevels: profile.completed_levels || [],
-        userId: user.id,
-      }));
-      // If still on start screen, move to next screen
-      setGameState((current) => {
-        if (current === GameState.START) {
-          // We need to trigger the full switchState animation logic
-          // pass user info directly or use useEffect to trigger switch
-          // But inside async function, stick to simple state update or call helper outside
-          return current;
-        }
-        return current;
-      });
-      // Trigger switch state safely
-      if (gameState === GameState.START) {
-        switchState(GameState.DYNASTY_SELECT);
-      }
-    } else {
-      // Create profile if not exists
-      const newProfile = {
-        id: user.id,
-        email: user.email,
-        full_name: user.user_metadata.full_name || 'Agen Baru',
-        avatar_url: user.user_metadata.avatar_url,
-        score: 0,
-        energy: 3,
-        school: 'SMPN 2 Malang' // default
-      };
-      const { error } = await supabase.from('profiles').insert([newProfile]);
-      if (!error) {
-        setPlayerStats(prev => ({
+      if (profile) {
+        setIsAdmin(profile.email === 'hadhiee@gmail.com');
+        setPlayerStats((prev) => ({
           ...prev,
-          name: newProfile.full_name,
-          email: newProfile.email,
-          avatarUrl: newProfile.avatar_url,
-          userId: user.id
+          name: profile.full_name || user.user_metadata.full_name || 'Agen',
+          email: profile.email || user.email,
+          avatarUrl: profile.avatar_url || user.user_metadata.avatar_url,
+          score: profile.score ?? 0,
+          energy: profile.energy ?? 3,
+          completedLevels: profile.completed_levels || [],
+          userId: user.id,
         }));
         if (gameState === GameState.START) {
           switchState(GameState.DYNASTY_SELECT);
         }
+      } else {
+        const adminEmail = 'hadhiee@gmail.com';
+        const isUserAdmin = user.email === adminEmail;
+        setIsAdmin(isUserAdmin);
+
+        const newProfile = {
+          id: user.id,
+          email: user.email,
+          full_name: user.user_metadata.full_name || 'Agen Baru',
+          avatar_url: user.user_metadata.avatar_url,
+          score: 0,
+          energy: 3,
+          school: 'SMPN 2 Malang',
+          is_guest: false
+        };
+        const { error } = await supabase.from('profiles').insert([newProfile]);
+        if (!error) {
+          setPlayerStats(prev => ({
+            ...prev,
+            name: newProfile.full_name,
+            email: newProfile.email,
+            avatarUrl: newProfile.avatar_url,
+            userId: user.id
+          }));
+          if (gameState === GameState.START) {
+            switchState(GameState.DYNASTY_SELECT);
+          }
+        }
       }
+    } catch (err) {
+      console.error("Auth error:", err);
     }
   };
 
+  // Real-time Score Sync
   useEffect(() => {
-    if (gameState === GameState.START || gameState === GameState.DYNASTY_SELECT || gameState === GameState.DYNASTY_BRIEFING) return;
+    if (!playerStats.userId) return;
+
+    const syncScore = async () => {
+      await supabase
+        .from('profiles')
+        .update({
+          score: playerStats.score,
+          energy: playerStats.energy,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', playerStats.userId);
+    };
+
+    const timer = setTimeout(syncScore, 2000); // Debounce sync
+    return () => clearTimeout(timer);
+  }, [playerStats.score, playerStats.energy, playerStats.userId]);
+
+  useEffect(() => {
+    if (gameState === GameState.START || gameState === GameState.DYNASTY_SELECT || gameState === GameState.DYNASTY_BRIEFING || gameState === GameState.ADMIN) return;
 
     const interval = setInterval(() => {
       setCompetitors(prev => {
@@ -220,8 +239,33 @@ const App: React.FC = () => {
     }, 500);
   };
 
-  const handleStart = (name: string, email: string, avatarUrl: string) => {
-    setPlayerStats(prev => ({ ...prev, name, email, avatarUrl }));
+  const handleStart = async (name: string, email: string, avatarUrl: string, className: string) => {
+    const guestId = `guest_${Math.random().toString(36).substr(2, 9)}`;
+
+    // Save guest to Supabase
+    try {
+      await supabase.from('profiles').insert([{
+        id: guestId,
+        full_name: name,
+        email: email || `guest_${guestId}@chrono.quest`,
+        avatar_url: avatarUrl,
+        is_guest: true,
+        class_name: className,
+        score: 0,
+        energy: 3,
+        updated_at: new Date().toISOString()
+      }]);
+    } catch (e) {
+      console.warn("Guest tracking failed:", e);
+    }
+
+    setPlayerStats(prev => ({
+      ...prev,
+      name,
+      email,
+      avatarUrl,
+      userId: guestId
+    }));
     setWelcomePlayerData({ name, avatarUrl });
     setShowWelcome(true);
   };
@@ -255,7 +299,8 @@ const App: React.FC = () => {
         score: newStats.score,
         energy: newStats.energy,
         completed_levels: newStats.completedLevels,
-        current_node_index: newStats.currentNodeIndex
+        current_node_index: newStats.currentNodeIndex,
+        updated_at: new Date().toISOString()
       }).eq('id', newStats.userId).then(({ error }) => {
         if (error) console.error('Error saving progress:', error);
       });
@@ -279,10 +324,8 @@ const App: React.FC = () => {
   };
 
   const handleLogout = async () => {
-    // Sign out from Supabase if logged in
     await supabase.auth.signOut();
-
-    // Reset player stats
+    setIsAdmin(false);
     setPlayerStats({
       name: 'Cadet',
       email: '',
@@ -293,15 +336,26 @@ const App: React.FC = () => {
       completedLevels: [],
       currentNodeIndex: 0
     });
-
-    // Go back to start
     switchState(GameState.START);
   };
 
   return (
     <div className="antialiased font-content text-white h-screen w-screen overflow-x-hidden relative">
-      {/* Online Players Panel & Logout - Show everywhere except START screen */}
-      {renderState !== GameState.START && !showWelcome && (
+      {/* Admin Quick Access Button */}
+      {isAdmin && renderState !== GameState.ADMIN && (
+        <button
+          onClick={() => switchState(GameState.ADMIN)}
+          className="fixed bottom-4 left-4 z-[9999] bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2 rounded-xl font-bold font-sci-fi text-xs shadow-lg flex items-center gap-2 border-2 border-black"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          ADMIN DASHBOARD
+        </button>
+      )}
+
+      {/* Online Players Panel & Logout - Show everywhere except START & ADMIN screen */}
+      {renderState !== GameState.START && renderState !== GameState.ADMIN && !showWelcome && (
         <OnlinePlayers
           competitors={competitors}
           currentPlayerName={playerStats.name}
@@ -311,6 +365,10 @@ const App: React.FC = () => {
 
       <div className={`page-transition w-full h-full ${isTransitioning ? 'page-exit' : 'page-active'}`}>
         {renderState === GameState.START && <StartScreen onStart={handleStart} />}
+
+        {renderState === GameState.ADMIN && (
+          <AdminDashboard onBack={() => switchState(GameState.START)} />
+        )}
 
         {renderState === GameState.DYNASTY_SELECT && (
           <DynastySelection onSelect={handleSelectDynasty} />
@@ -379,8 +437,6 @@ const App: React.FC = () => {
           onComplete={handleWelcomeComplete}
         />
       )}
-
-
     </div>
   );
 };

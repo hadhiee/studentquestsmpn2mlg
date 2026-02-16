@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 
 interface StartScreenProps {
-  onStart: (name: string, email: string, avatarUrl: string) => void;
+  onStart: (name: string, email: string, avatarUrl: string, className: string) => void;
 }
 
 const PRESET_SEEDS = [
@@ -14,6 +14,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [emailInput, setEmailInput] = useState('siswa@gmail.com');
   const [nameInput, setNameInput] = useState('');
+  const [classInput, setClassInput] = useState('');
   const [selectedSeed, setSelectedSeed] = useState(PRESET_SEEDS[0]);
   const [customAvatarUrl, setCustomAvatarUrl] = useState('');
 
@@ -45,7 +46,7 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
     }
     setIsAuthenticating(true);
     setTimeout(() => {
-      onStart(nameInput, emailInput, customAvatarUrl);
+      onStart(nameInput, emailInput, customAvatarUrl, classInput);
     }, 2500);
   };
 
@@ -162,6 +163,8 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
                       <label className="block text-[9px] text-slate-500 mb-1 font-sci-fi uppercase font-bold">Kelas / Absen (Opsional)</label>
                       <input
                         type="text"
+                        value={classInput}
+                        onChange={(e) => setClassInput(e.target.value)}
                         className="w-full bg-transparent text-white focus:outline-none placeholder:text-slate-700"
                         placeholder="MISAL: 7A / 01"
                       />
