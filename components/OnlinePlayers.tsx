@@ -29,26 +29,36 @@ export const OnlinePlayers: React.FC<OnlinePlayersProps> = ({ competitors, curre
 
             {/* Online Players Panel - Top Right */}
             <div className="fixed top-4 right-4 z-[9999]">
-                {/* Collapsed State - Just the badge */}
                 {!isExpanded && (
-                    <button
-                        onClick={() => setIsExpanded(true)}
-                        className="bg-slate-900/90 backdrop-blur-md border border-green-500/30 rounded-2xl px-4 py-3 shadow-lg hover:shadow-green-500/30 transition-all hover:scale-105"
-                    >
-                        <div className="flex items-center gap-3">
-                            <div className="relative">
-                                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                                <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
+                    <div className="flex flex-col items-end gap-2">
+                        {/* User Identity Profile */}
+                        <div className="bg-slate-900/80 backdrop-blur-md border border-gold-dust/30 rounded-full pl-4 pr-1 py-1 flex items-center gap-3 shadow-xl">
+                            <span className="text-white font-bold text-xs tracking-tight">{currentPlayerName}</span>
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold-dust to-amber-600 flex items-center justify-center text-white font-bold text-[10px] border border-white/20">
+                                {currentPlayerName.charAt(0).toUpperCase()}
                             </div>
-                            <div className="text-left">
-                                <p className="text-white font-sci-fi text-xs tracking-wider">ONLINE</p>
-                                <p className="text-green-400 font-bold text-lg leading-none">{totalOnline}</p>
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
                         </div>
-                    </button>
+
+                        {/* Online Count Badge */}
+                        <button
+                            onClick={() => setIsExpanded(true)}
+                            className="bg-slate-900/90 backdrop-blur-md border border-green-500/30 rounded-2xl px-4 py-3 shadow-lg hover:shadow-green-500/30 transition-all hover:scale-105"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="relative">
+                                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                    <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-white font-sci-fi text-[10px] tracking-wider leading-none">ONLINE</p>
+                                    <p className="text-green-400 font-bold text-lg leading-none mt-1">{totalOnline}</p>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
                 )}
 
                 {/* Expanded State - Full list */}
