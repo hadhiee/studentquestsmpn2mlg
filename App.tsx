@@ -7,6 +7,7 @@ import { DynastySelection } from './components/DynastySelection';
 import { DynastyBriefing } from './components/DynastyBriefing';
 import { CLASSMATES_NAMES, LEVEL_1_MAP_NODES } from './constants';
 import { supabase } from './supabaseClient';
+import { WelcomeAnimation } from './components/WelcomeAnimation';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.START);
@@ -27,6 +28,8 @@ const App: React.FC = () => {
   });
 
   const [competitors, setCompetitors] = useState<Competitor[]>([]);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [welcomePlayerData, setWelcomePlayerData] = useState<{ name: string; avatarUrl?: string } | null>(null);
 
   useEffect(() => {
     const bots: Competitor[] = CLASSMATES_NAMES.map((name, index) => {
@@ -218,6 +221,12 @@ const App: React.FC = () => {
 
   const handleStart = (name: string, email: string, avatarUrl: string) => {
     setPlayerStats(prev => ({ ...prev, name, email, avatarUrl }));
+    setWelcomePlayerData({ name, avatarUrl });
+    setShowWelcome(true);
+  };
+
+  const handleWelcomeComplete = () => {
+    setShowWelcome(false);
     switchState(GameState.DYNASTY_SELECT);
   };
 
@@ -331,6 +340,15 @@ const App: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Epic Welcome Animation */}
+      {showWelcome && welcomePlayerData && (
+        <WelcomeAnimation
+          playerName={welcomePlayerData.name}
+          avatarUrl={welcomePlayerData.avatarUrl}
+          onComplete={handleWelcomeComplete}
+        />
+      )}
     </div>
   );
 };
