@@ -1,0 +1,22 @@
+{
+    "short_name": "Sijelatu",
+    "name": "Sijelatu: Chrono Quest",
+    "icons": [
+        {
+            "src": "icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#0f172a",
+    "background_color": "#0f172a",
+    "orientation": "portrait"
+}
