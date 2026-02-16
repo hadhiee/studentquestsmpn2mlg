@@ -32,11 +32,28 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
           >
             <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🕌</div>
             <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
-              <img
-                src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200&auto=format&fit=crop"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="Damascus Skyline"
-              />
+              <div className="w-full h-full bg-[#1e293b] flex items-center justify-center relative overflow-hidden group-hover:scale-110 transition-transform duration-700">
+                <svg viewBox="0 0 200 120" className="w-full h-full opacity-60">
+                  <defs>
+                    <linearGradient id="sky1" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: "#2d1b69", stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: "#1e293b", stopOpacity: 1 }} />
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="120" fill="url(#sky1)" />
+                  <circle cx="150" cy="40" r="20" fill="#ffd700" opacity="0.2" />
+                  <g fill="#0f172a">
+                    <rect x="40" y="60" width="30" height="60" rx="2" />
+                    <rect x="75" y="45" width="50" height="75" rx="2" />
+                    <rect x="130" y="70" width="30" height="50" rx="2" />
+                    <circle cx="100" cy="45" r="25" />
+                    <rect x="98" y="10" width="4" height="40" />
+                  </g>
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white/20 font-sci-fi text-[40px] font-bold tracking-widest blur-[1px]">DAMASCUS</span>
+                </div>
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
               <div className="absolute bottom-4 left-4">
                 <span className="bg-u-damascus text-white text-[10px] font-bold font-sci-fi px-3 py-1 rounded-full uppercase tracking-widest">Wilayah Timur</span>
@@ -59,11 +76,25 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
           >
             <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🔬</div>
             <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
-              <img
-                src="https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=1200&auto=format&fit=crop"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt="Mezquita de Cordoba"
-              />
+              <div className="w-full h-full bg-[#1e293b] flex items-center justify-center relative overflow-hidden group-hover:scale-110 transition-transform duration-700">
+                <svg viewBox="0 0 200 120" className="w-full h-full opacity-60">
+                  <defs>
+                    <linearGradient id="sky2" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: "#b45309", stopOpacity: 0.3 }} />
+                      <stop offset="100%" style={{ stopColor: "#1e293b", stopOpacity: 1 }} />
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="120" fill="url(#sky2)" />
+                  <g stroke="#c85a54" strokeWidth="2" fill="none" opacity="0.4">
+                    {[20, 40, 60, 80, 100, 120, 140, 160, 180].map(x => (
+                      <path key={x} d={`M ${x},120 L ${x},40 Q ${x + 10},20 ${x + 20},40 L ${x + 20},120`} />
+                    ))}
+                  </g>
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white/20 font-sci-fi text-[40px] font-bold tracking-widest blur-[1px]">CORDOBA</span>
+                </div>
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
               <div className="absolute bottom-4 left-4">
                 <span className="bg-u-cordoba text-white text-[10px] font-bold font-sci-fi px-3 py-1 rounded-full uppercase tracking-widest">Wilayah Barat</span>
