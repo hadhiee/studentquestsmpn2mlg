@@ -31,6 +31,7 @@ const App: React.FC = () => {
   });
 
   const [competitors, setCompetitors] = useState<Competitor[]>([]);
+  const [realPlayers, setRealPlayers] = useState<Competitor[]>([]);
   const [showWelcome, setShowWelcome] = useState(false);
   const [welcomePlayerData, setWelcomePlayerData] = useState<{ name: string; avatarUrl?: string } | null>(null);
 
@@ -149,6 +150,41 @@ const App: React.FC = () => {
     const timer = setTimeout(syncScore, 2000); // Debounce sync
     return () => clearTimeout(timer);
   }, [playerStats.score, playerStats.energy, playerStats.userId]);
+
+  // Sync REAL players from Supabase to show in Online Panel
+  useEffect(() => {
+    const fetchRealPlayers = async () => {
+      // Fetch users active in the last 10 minutes
+      const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+      const { data } = await supabase
+        .from('profiles')
+        .select('*')
+        .gt('updated_at', tenMinutesAgo)
+        .order('score', { ascending: false });
+
+      if (data) {
+        const players: Competitor[] = data
+          .filter(p => p.id !== playerStats.userId) // Exclude current user
+          .map(p => ({
+            id: p.id,
+            name: p.full_name,
+            score: p.score || 0,
+            energy: p.energy || 3,
+            currentNodeIndex: p.current_node_index || 0,
+            pathHistory: [],
+            currentActivity: p.is_guest ? 'Agen Tamu' : 'Agen SSO',
+            lastUpdate: new Date(p.updated_at).getTime(),
+            status: 'online',
+            avatarUrl: p.avatar_url || `https://api.dicebear.com/7.x/lorelei/svg?seed=${p.id}`
+          }));
+        setRealPlayers(players);
+      }
+    };
+
+    const interval = setInterval(fetchRealPlayers, 8000); // Refresh every 8s
+    fetchRealPlayers();
+    return () => clearInterval(interval);
+  }, [playerStats.userId]);
 
   useEffect(() => {
     if (gameState === GameState.START || gameState === GameState.DYNASTY_SELECT || gameState === GameState.DYNASTY_BRIEFING || gameState === GameState.ADMIN) return;
@@ -357,7 +393,7 @@ const App: React.FC = () => {
       {/* Online Players Panel & Logout - Show everywhere except START & ADMIN screen */}
       {renderState !== GameState.START && renderState !== GameState.ADMIN && !showWelcome && (
         <OnlinePlayers
-          competitors={competitors}
+          competitors={[...realPlayers, ...competitors]}
           currentPlayerName={playerStats.name}
           onLogout={handleLogout}
         />
