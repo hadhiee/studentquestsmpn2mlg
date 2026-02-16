@@ -24,65 +24,65 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-          
+
           {/* Option: Umayyah 1 */}
-          <button 
+          <button
             onClick={() => onSelect('umayyah1')}
             className="group relative bg-slate-900/40 border-2 border-slate-700 rounded-[2rem] p-8 transition-all hover:border-u-damascus hover:bg-slate-800/60 overflow-hidden text-left flex flex-col h-full"
           >
             <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🕌</div>
             <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
-                <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Umayyad_Mosque_prayer_hall.jpg/640px-Umayyad_Mosque_prayer_hall.jpg" 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                    alt="Damascus" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
-                <div className="absolute bottom-4 left-4">
-                    <span className="bg-u-damascus text-white text-[10px] font-bold font-sci-fi px-3 py-1 rounded-full uppercase tracking-widest">Wilayah Timur</span>
-                </div>
+              <img
+                src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=800&auto=format&fit=crop"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Damascus"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+              <div className="absolute bottom-4 left-4">
+                <span className="bg-u-damascus text-white text-[10px] font-bold font-sci-fi px-3 py-1 rounded-full uppercase tracking-widest">Wilayah Timur</span>
+              </div>
             </div>
-            
+
             <h3 className="text-2xl font-bold font-sci-fi text-white mb-3 group-hover:text-gold-dust transition-colors">UMAYYAH I: DAMASKUS</h3>
             <p className="text-slate-400 text-sm font-content leading-relaxed flex-1">
               Era pembentukan kekhalifahan pertama. Fokus pada sentralisasi pemerintahan, pembangunan Masjid Agung Damaskus, dan perluasan wilayah dari Asia hingga Afrika Utara.
             </p>
             <div className="mt-6 flex items-center gap-2 text-gold-dust font-bold text-xs font-sci-fi group-hover:translate-x-2 transition-transform">
-               MULAI MISI <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              MULAI MISI <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
             </div>
           </button>
 
           {/* Option: Umayyah 2 */}
-          <button 
+          <button
             onClick={() => onSelect('umayyah2')}
             className="group relative bg-slate-900/40 border-2 border-slate-700 rounded-[2rem] p-8 transition-all hover:border-u-cordoba hover:bg-slate-800/60 overflow-hidden text-left flex flex-col h-full"
           >
             <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🔬</div>
             <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
-                <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Mezquita_de_C%C3%B3rdoba_desde_el_aire_%28cropped%29.jpg/640px-Mezquita_de_C%C3%B3rdoba_desde_el_aire_%28cropped%29.jpg" 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                    alt="Cordoba" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
-                <div className="absolute bottom-4 left-4">
-                    <span className="bg-u-cordoba text-white text-[10px] font-bold font-sci-fi px-3 py-1 rounded-full uppercase tracking-widest">Wilayah Barat</span>
-                </div>
+              <img
+                src="https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=800&auto=format&fit=crop"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Cordoba"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+              <div className="absolute bottom-4 left-4">
+                <span className="bg-u-cordoba text-white text-[10px] font-bold font-sci-fi px-3 py-1 rounded-full uppercase tracking-widest">Wilayah Barat</span>
+              </div>
             </div>
-            
+
             <h3 className="text-2xl font-bold font-sci-fi text-white mb-3 group-hover:text-gold-dust transition-colors">UMAYYAH II: ANDALUSIA</h3>
             <p className="text-slate-400 text-sm font-content leading-relaxed flex-1">
               Era keemasan di Spanyol. Jelajahi Cordoba sebagai pusat ilmu pengetahuan dunia. Pelajari toleransi beragama (La Convivencia) dan kemajuan astronomi serta kedokteran.
             </p>
             <div className="mt-6 flex items-center gap-2 text-gold-dust font-bold text-xs font-sci-fi group-hover:translate-x-2 transition-transform">
-               MULAI MISI <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              MULAI MISI <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
             </div>
           </button>
 
         </div>
-        
+
         <p className="mt-12 text-[10px] font-mono text-slate-600 uppercase tracking-widest">
-            SMPN 2 MALANG // CHRONO-PORTAL V2.5
+          SMPN 2 MALANG // CHRONO-PORTAL V2.5
         </p>
       </div>
     </div>
