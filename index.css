@@ -6,6 +6,9 @@ body {
   background-color: #0f172a;
   color: white;
   overflow-x: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

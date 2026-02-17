@@ -13,12 +13,12 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-holo-blue/5 blur-[100px] rounded-full"></div>
 
       <div className="z-10 text-center max-w-6xl w-full">
-        <div className="mb-12 animate-fade-in">
-          <h2 className="text-holo-blue font-sci-fi tracking-[0.4em] text-xs mb-4 uppercase font-bold">Inisialisasi Jalur Waktu</h2>
-          <h1 className="text-4xl md:text-6xl font-bold font-sci-fi text-white mb-4 tracking-tighter shadow-sm">
+        <div className="mb-8 md:mb-12 animate-fade-in">
+          <h2 className="text-holo-blue font-sci-fi tracking-[0.3em] md:tracking-[0.4em] text-[10px] md:text-xs mb-3 md:mb-4 uppercase font-bold">Inisialisasi Jalur Waktu</h2>
+          <h1 className="text-3xl md:text-6xl font-bold font-sci-fi text-white mb-3 md:mb-4 tracking-tighter shadow-sm leading-tight px-4 md:px-0">
             PILIH ERA <span className="text-gold-dust">DINASTI UMAYYAH</span>
           </h1>
-          <p className="text-slate-500 font-content text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-slate-500 font-content text-sm md:text-lg max-w-2xl mx-auto leading-relaxed px-6 md:px-0">
             Pilih titik koordinat temporal untuk memulai misi Anda. Setiap era menyimpan rahasia peradaban yang berbeda.
           </p>
         </div>
@@ -30,8 +30,8 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
             onClick={() => onSelect('umayyah1')}
             className="group relative bg-slate-900/40 border-2 border-slate-700 rounded-[2rem] p-8 transition-all hover:border-u-damascus hover:bg-slate-800/60 overflow-hidden text-left flex flex-col h-full"
           >
-            <div className="absolute top-0 right-0 p-6 text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🕌</div>
-            <div className="mb-6 relative h-48 rounded-2xl overflow-hidden border border-white/5">
+            <div className="absolute top-0 right-0 p-4 md:p-6 text-4xl md:text-6xl opacity-5 transition-transform group-hover:scale-150 group-hover:rotate-12 select-none">🕌</div>
+            <div className="mb-4 md:mb-6 relative h-40 md:h-48 rounded-2xl md:rounded-3xl overflow-hidden border border-white/5">
               <div className="w-full h-full bg-[#1e293b] flex items-center justify-center relative overflow-hidden group-hover:scale-110 transition-transform duration-700">
                 <svg viewBox="0 0 200 120" className="w-full h-full opacity-60">
                   <defs>
@@ -51,18 +51,18 @@ export const DynastySelection: React.FC<DynastySelectionProps> = ({ onSelect }) 
                   </g>
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white/20 font-sci-fi text-[40px] font-bold tracking-widest blur-[1px]">DAMASCUS</span>
+                  <span className="text-white/20 font-sci-fi text-[28px] md:text-[40px] font-bold tracking-widest blur-[1px]">DAMASCUS</span>
                 </div>
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
-              <div className="absolute bottom-4 left-4">
-                <span className="bg-u-damascus text-white text-[10px] font-bold font-sci-fi px-3 py-1 rounded-full uppercase tracking-widest">Wilayah Timur</span>
+              <div className="absolute bottom-3 left-3 md:bottom-4 md:left-4">
+                <span className="bg-u-damascus text-white text-[9px] md:text-[10px] font-bold font-sci-fi px-3 py-1 rounded-full uppercase tracking-widest">Wilayah Timur</span>
               </div>
             </div>
 
-            <h3 className="text-2xl font-bold font-sci-fi text-white mb-3 group-hover:text-gold-dust transition-colors">UMAYYAH I: DAMASKUS</h3>
-            <p className="text-slate-400 text-sm font-content leading-relaxed flex-1">
-              Era pembentukan kekhalifahan pertama. Fokus pada sentralisasi pemerintahan, pembangunan Masjid Agung Damaskus, dan perluasan wilayah dari Asia hingga Afrika Utara.
+            <h3 className="text-xl md:text-2xl font-bold font-sci-fi text-white mb-2 md:mb-3 group-hover:text-gold-dust transition-colors">UMAYYAH I: DAMASKUS</h3>
+            <p className="text-slate-400 text-xs md:text-sm font-content leading-relaxed flex-1">
+              Era pembentukan kekhalifahan pertama. Fokus pada sentralisasi pemerintahan, pembangunan Masjid Agung Damaskus, dan perluasan wilayah.
             </p>
             <div className="mt-6 flex items-center gap-2 text-gold-dust font-bold text-xs font-sci-fi group-hover:translate-x-2 transition-transform">
               MULAI MISI <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
