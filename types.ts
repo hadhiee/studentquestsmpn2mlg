@@ -6,7 +6,8 @@ export enum GameState {
   PLAYING = 'PLAYING',
   GAME_OVER = 'GAME_OVER',
   VICTORY = 'VICTORY',
-  ADMIN = 'ADMIN'
+  ADMIN = 'ADMIN',
+  AUTH_CALLBACK = 'AUTH_CALLBACK'
 }
 
 export interface Question {

@@ -10,12 +10,21 @@ import { supabase } from './supabaseClient';
 import { WelcomeAnimation } from './components/WelcomeAnimation';
 import { OnlinePlayers } from './components/OnlinePlayers';
 import { AdminDashboard } from './components/AdminDashboard';
+import { AuthCallback } from './components/AuthCallback';
 
 const App: React.FC = () => {
-  const [gameState, setGameState] = useState<GameState>(GameState.START);
+  const [gameState, setGameState] = useState<GameState>(
+    window.location.hash.includes('access_token')
+      ? GameState.AUTH_CALLBACK
+      : GameState.START
+  );
   const [activeLevel, setActiveLevel] = useState<number>(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [renderState, setRenderState] = useState<GameState>(GameState.START);
+  const [renderState, setRenderState] = useState<GameState>(
+    window.location.hash.includes('access_token')
+      ? GameState.AUTH_CALLBACK
+      : GameState.START
+  );
   const [selectedDynasty, setSelectedDynasty] = useState<'umayyah1' | 'umayyah2' | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -187,7 +196,7 @@ const App: React.FC = () => {
   }, [playerStats.userId]);
 
   useEffect(() => {
-    if (gameState === GameState.START || gameState === GameState.DYNASTY_SELECT || gameState === GameState.DYNASTY_BRIEFING || gameState === GameState.ADMIN) return;
+    if (gameState === GameState.START || gameState === GameState.DYNASTY_SELECT || gameState === GameState.DYNASTY_BRIEFING || gameState === GameState.ADMIN || gameState === GameState.AUTH_CALLBACK) return;
 
     const interval = setInterval(() => {
       setCompetitors(prev => {
@@ -391,7 +400,7 @@ const App: React.FC = () => {
       )}
 
       {/* Online Players Panel & Logout - Show everywhere except START & ADMIN screen */}
-      {renderState !== GameState.START && renderState !== GameState.ADMIN && !showWelcome && (
+      {renderState !== GameState.START && renderState !== GameState.ADMIN && renderState !== GameState.AUTH_CALLBACK && !showWelcome && (
         <OnlinePlayers
           competitors={[...realPlayers, ...competitors]}
           currentPlayerName={playerStats.name}
@@ -404,6 +413,13 @@ const App: React.FC = () => {
 
         {renderState === GameState.ADMIN && (
           <AdminDashboard onBack={() => switchState(GameState.START)} />
+        )}
+
+        {renderState === GameState.AUTH_CALLBACK && (
+          <AuthCallback onComplete={() => {
+            window.history.replaceState({}, document.title, '/');
+            switchState(GameState.DYNASTY_SELECT);
+          }} />
         )}
 
         {renderState === GameState.DYNASTY_SELECT && (
