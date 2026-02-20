@@ -4,16 +4,16 @@ Panduan ini akan membantu Anda mengonlinekan game **Student Quest: Edisi Dinasti
 
 ## 1. Persiapan Supabase untuk Production
 
-Supabase perlu tahu bahwa Anda akan menggunakan domain `sijelatu.vercel.app` untuk login.
+Supabase perlu tahu bahwa Anda akan menggunakan domain `simonic-ic.vercel.app` untuk login.
 
 1.  Buka Dashboard Supabase Anda: https://supabase.com/dashboard/
 2.  Pilih Project Anda.
 3.  Masuk ke menu **Authentication** > **URL Configuration**.
 4.  Tambahkan domain Anda di bagian **Site URL**:
-    -   Isi dengan: `https://sijelatu.vercel.app`
+    -   Isi dengan: `https://simonic-ic.vercel.app`
 5.  Tambahkan URL Redirect di bagian **Redirect URLs**:
     -   Klik **Add URL**
-    -   Masukkan: `https://sijelatu.vercel.app/**` (Tanda `**` berarti semua sub-halaman diizinkan, meskipun aplikasi kita SPA).
+    -   Masukkan: `https://simonic-ic.vercel.app/**` (Tanda `**` berarti semua sub-halaman diizinkan, meskipun aplikasi kita SPA).
     -   Pastikan `http://localhost:3000/**` juga masih ada agar Anda tetap bisa testing di lokal.
 
 ## 2. Deployment ke Vercel
@@ -64,11 +64,11 @@ Login Google tidak akan berhasil di domain baru jika tidak diizinkan di Google C
 3.  Masuk ke **APIs & Services** > **Credentials**.
 4.  Klik nama **OAuth 2.0 Client ID** yang Anda gunakan.
 5.  Di bagian **Authorized JavaScript origins**, tambahkan:
-    -   `https://sijelatu.vercel.app`
+    -   `https://simonic-ic.vercel.app`
 6.  Di bagian **Authorized redirect URIs**, tambahkan URL Callback dari Supabase Anda:
     -   Ini *biasanya* tetap sama: `https://<YOUR-PROJECT-ID>.supabase.co/auth/v1/callback`
     -   Jadi bagian ini **MUNGKIN TIDAK PERLU DIUBAH** jika Anda hanya mengubah frontend domain. Supabase yang menangani redirect.
-    -   **NAMUN**: Pastikan Anda sudah menambahkan `https://sijelatu.vercel.app` di Dashboard Supabase (Langkah 1).
+    -   **NAMUN**: Pastikan Anda sudah menambahkan `https://simonic-ic.vercel.app` di Dashboard Supabase (Langkah 1).
 
 ## Troubleshooting
 
